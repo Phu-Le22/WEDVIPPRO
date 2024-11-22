@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHESS</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="background/pp.jpg" type="background/pp">
+    <style>
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .time-display {
+            font-size: 16px;
+            color: #333;
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<audio id="background-music" autoplay loop>
+    <source src="music/sun.mp3" type="audio/mpeg">
+</audio>
+
+<div style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
+    <!-- Nút tạm dừng/phát nhạc -->
+    <button id="toggle-music">Tạm Dừng Nhạc Nhé!!</button>
+</div>
+
+<!-- Hiển thị thời gian ở góc trái phía dưới -->
+<div class="time-display" id="time-display">Thời gian sẽ xuất hiện ở đây...</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const music = document.getElementById('background-music');
+        const toggleButton = document.getElementById('toggle-music');
+        const timeDisplay = document.getElementById('time-display');
+
+        // Thiết lập nút tạm dừng/phát nhạc
+        toggleButton.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                toggleButton.textContent = 'Tạm Dừng Nhạc Nhé!!';
+            } else {
+                music.pause();
+                toggleButton.textContent = 'Phát Nhạc Lại!!';
+            }
+        });
+
+        // Cập nhật thời gian hiện tại mỗi giây
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            timeDisplay.textContent = `Thời gian hiện tại: ${hours}:${minutes}:${seconds}`;
+        }
+
+        // Gọi hàm cập nhật thời gian ngay lập tức và lặp lại mỗi giây
+        updateTime();
+        setInterval(updateTime, 1000);
+    });
+</script>
+
+<div class="option-nav">
+    <div id="player-nav">
+        Lược của : <span id="player"></span>
+    </div>
+    <div id="option" class="btn">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+        <span class="tooltiptext">OPTION</span>
+    </div>
+    <div id="undo-btn" class="btn">
+        <i class="fa fa-undo" aria-hidden="true"></i>
+        <span class="tooltiptext">UNDO</span>
+    </div>
+</div>
+
+<div id="board">
+    <div id="result" class="hide"></div>
+    <div id="pawn-promotion-option" class="hide">
+        <span id="queen" class="option"></span>
+        <span id="rook" class="option"></span>
+        <span id="knight" class="option"></span>
+        <span id="bishop" class="option"></span>
+    </div>
+
+    <div id="option-menu" class="hide">
+        <div id="back-btn" class="button">BACK</div>
+        <div id="theme-menu">
+            THEME: <span id="theme-option" class="button"></span>
+        </div>
+        <div id="color-menu">
+            COLOR: <span id="color-option" class="button"></span>
+        </div>
+        <div id="restart-btn" class="button">NEW GAME</div>
+    </div>
+    <div id="game" ng-app="myApp" ng-controller="GameController">
+        <div class="row" ng-repeat="y in widths">
+            <div class="box" ng-repeat="x in widths" ng-attr-id="{{'box-' + x + '-' + y}}" piece="">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="script.js"></script>
+
+<div>
+<p>Game được phát triển bởi Phú Lê 
+    <image src="background/qr.jpg" 
+        alt="Liên hệ nhấp vào nhé"
+        height="40">
+    </image>
+</p>
+</div>
+
+</body>
+</html>
